@@ -1,0 +1,58 @@
+{
+  "description": "Forge Console application theme for Tailwind CSS v4 and shadcn/ui",
+  "name": "forge-console",
+  "palette": {
+    "dark": {
+      "accent": "#ff8a3d",
+      "accentForeground": "#111318",
+      "background": "#111318",
+      "border": "#393d48",
+      "card": "#191c23",
+      "cardForeground": "#eee9e3",
+      "destructive": "#ef4444",
+      "destructiveForeground": "#ffffff",
+      "foreground": "#eee9e3",
+      "input": "#393d48",
+      "muted": "#262a33",
+      "mutedForeground": "#b9b4ad",
+      "popover": "#191c23",
+      "popoverForeground": "#eee9e3",
+      "primary": "#69d3e4",
+      "primaryForeground": "#111318",
+      "ring": "#69d3e4",
+      "secondary": "#262a33",
+      "secondaryForeground": "#ddd7d0"
+    },
+    "light": {
+      "accent": "#9c3e0b",
+      "accentForeground": "#ffffff",
+      "background": "#fff8f0",
+      "border": "#d1c4b8",
+      "card": "#fffdfa",
+      "cardForeground": "#262a33",
+      "destructive": "#dc2626",
+      "destructiveForeground": "#ffffff",
+      "foreground": "#262a33",
+      "input": "#d1c4b8",
+      "muted": "#eee4da",
+      "mutedForeground": "#625a55",
+      "popover": "#fffdfa",
+      "popoverForeground": "#262a33",
+      "primary": "#126475",
+      "primaryForeground": "#ffffff",
+      "ring": "#126475",
+      "secondary": "#f5ede5",
+      "secondaryForeground": "#262a33"
+    }
+  },
+  "schemaVersion": "tfss.theme-v1",
+  "surfaces": {
+    "radius": "0.5rem"
+  },
+  "typography": {
+    "fontHeading": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "fontMono": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+    "fontSans": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+  },
+  "version": "0.1.0"
+}

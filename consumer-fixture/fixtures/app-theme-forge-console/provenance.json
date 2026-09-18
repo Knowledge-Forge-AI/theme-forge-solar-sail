@@ -1,0 +1,65 @@
+{
+  "schema": "tfss.package-provenance-v1",
+  "producer": {
+    "package": "@knowledge-forge-ai/theme-forge-solar-sail",
+    "version": "0.1.0"
+  },
+  "packageName": "@knowledge-forge-ai/app-theme-forge-console",
+  "packageVersion": "0.1.0",
+  "inventoryDigest": "7fd6093efb603ee708226ad59200392ff322235ea0228c67ff3cee49485e5619",
+  "inventoryExcludes": [
+    "provenance.json"
+  ],
+  "files": [
+    {
+      "path": "COMMERCIAL-LICENSE.md",
+      "size": 929,
+      "sha256": "da82fdf7926b0c104e85f227a178498cff9cc7ccc4a781ee1158e5e61f21ce6e"
+    },
+    {
+      "path": "index.d.ts",
+      "size": 102,
+      "sha256": "1f1d23d2820edef495100084092138c32fb9abfc90968a3fcf226e3bce3b81f2"
+    },
+    {
+      "path": "index.js",
+      "size": 177,
+      "sha256": "d99f6857fc2f57a25e56dbc81f9a4374507be0633f34dae68b5d7059fce14a54"
+    },
+    {
+      "path": "LICENSE",
+      "size": 34460,
+      "sha256": "62eef07fc3ad238dd889ff98cf9ed87b3ef0f421579b6945f87ec37c608afb62"
+    },
+    {
+      "path": "NOTICE",
+      "size": 592,
+      "sha256": "f42f316dab658fda0feb16da73d8a772254aca290ceabd0f3bd1bb21cbebad55"
+    },
+    {
+      "path": "package.json",
+      "size": 712,
+      "sha256": "43ad6d362b669cd050f98728c67932c3245ed95e9d9ce393163982e822113331"
+    },
+    {
+      "path": "README.md",
+      "size": 978,
+      "sha256": "71dc76e275b512bfd6e8d85c2d7726588815a8875b6edb062860c4bd526832a5"
+    },
+    {
+      "path": "styles/theme.css",
+      "size": 2686,
+      "sha256": "145fe974c3de797a8f5ea51a69bf3a0a6d6bb424cc1512c6b82e106ba4f7ad1e"
+    },
+    {
+      "path": "theme.descriptor.json",
+      "size": 485,
+      "sha256": "d329be85e6161931659055cc9729a78ace7bf86cce4df7c4945ac51493736e90"
+    },
+    {
+      "path": "theme.json",
+      "size": 1783,
+      "sha256": "d65cc4b2ed9f34906e16b1a96a45de349eabcfd26f4f3cf141884d460fec8b9d"
+    }
+  ]
+}
