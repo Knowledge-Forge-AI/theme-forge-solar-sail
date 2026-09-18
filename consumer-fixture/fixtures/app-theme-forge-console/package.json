@@ -1,0 +1,34 @@
+{
+  "name": "@knowledge-forge-ai/app-theme-forge-console",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Forge Console application theme for Tailwind CSS v4 and shadcn/ui",
+  "license": "AGPL-3.0-or-later",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    },
+    "./styles/*": "./styles/*",
+    "./theme.json": "./theme.json"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "styles",
+    "theme.json",
+    "theme.descriptor.json",
+    "provenance.json",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "COMMERCIAL-LICENSE.md"
+  ],
+  "peerDependencies": {
+    "tailwindcss": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
