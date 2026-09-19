@@ -1,0 +1,13 @@
+{
+  "compiler": {
+    "name": "@knowledge-forge-ai/theme-forge-solar-sail",
+    "version": "0.1.0"
+  },
+  "diagnostics": [],
+  "inputDigest": "d65cc4b2ed9f34906e16b1a96a45de349eabcfd26f4f3cf141884d460fec8b9d",
+  "inventoryDigest": "1d453cc8e03c8c4d0e38e19453afb0140589be16bd9d8bca7a0b2608fcc81a0d",
+  "outputDigest": "145fe974c3de797a8f5ea51a69bf3a0a6d6bb424cc1512c6b82e106ba4f7ad1e",
+  "schema": "tfss.theme-descriptor-v1",
+  "themeName": "forge-console",
+  "themeVersion": "0.1.0"
+}

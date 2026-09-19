@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "tf-paired-profile-v1",
+  "name": "flexoki",
+  "version": "0.1.0",
+  "description": "Flexoki inky warm shared design profile mapping independently to Solar Sail app theme and Stellar Loom Starlight catalog",
+  "palette": {
+    "light": {
+      "primary": "#24837b",
+      "primaryForeground": "#ffffff",
+      "accent": "#bc5215",
+      "accentForeground": "#ffffff",
+      "background": "#fffcf0",
+      "foreground": "#100f0f",
+      "card": "#f2f0e5",
+      "cardForeground": "#100f0f",
+      "popover": "#fffcf0",
+      "popoverForeground": "#100f0f",
+      "secondary": "#e6e4d9",
+      "secondaryForeground": "#100f0f",
+      "muted": "#f2f0e5",
+      "mutedForeground": "#6f6e69",
+      "border": "#cecdc3",
+      "input": "#cecdc3",
+      "ring": "#24837b",
+      "destructive": "#af3029",
+      "destructiveForeground": "#ffffff"
+    },
+    "dark": {
+      "primary": "#3aa99f",
+      "primaryForeground": "#100f0f",
+      "accent": "#da702c",
+      "accentForeground": "#100f0f",
+      "background": "#100f0f",
+      "foreground": "#cecdc3",
+      "card": "#1c1b1a",
+      "cardForeground": "#cecdc3",
+      "popover": "#1c1b1a",
+      "popoverForeground": "#cecdc3",
+      "secondary": "#282726",
+      "secondaryForeground": "#cecdc3",
+      "muted": "#282726",
+      "mutedForeground": "#878580",
+      "border": "#343331",
+      "input": "#343331",
+      "ring": "#3aa99f",
+      "destructive": "#d14d41",
+      "destructiveForeground": "#ffffff"
+    }
+  },
+  "surfaces": {
+    "radius": "0.375rem",
+    "content": 1152
+  },
+  "typography": {
+    "fontSans": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "fontHeading": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "fontMono": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+  },
+  "targetOverrides": {
+    "loom": {
+      "defaultAccent": "cyan"
+    },
+    "syntax": {
+      "syntax": {
+        "light": {
+          "comment": "#6f6e69",
+          "string": "#24837b",
+          "number": "#bc5215",
+          "constant": "#ad8301",
+          "keyword": "#a02f6f",
+          "function": "#205ea6",
+          "type": "#24837b",
+          "variable": "#5e409d",
+          "punctuation": "#6f6e69",
+          "tag": "#a02f6f",
+          "attribute": "#24837b"
+        },
+        "dark": {
+          "comment": "#878580",
+          "string": "#3aa99f",
+          "number": "#da702c",
+          "constant": "#d0a215",
+          "keyword": "#ce5d97",
+          "function": "#4385be",
+          "type": "#3aa99f",
+          "variable": "#8b7ec8",
+          "punctuation": "#878580",
+          "tag": "#ce5d97",
+          "attribute": "#3aa99f"
+        }
+      },
+      "chrome": {
+        "light": {
+          "background": "#fffcf0",
+          "foreground": "#100f0f",
+          "border": "#cecdc3",
+          "focus": "#24837b",
+          "tabBarBackground": "#f2f0e5",
+          "tabBarBorder": "#cecdc3",
+          "activeTabBackground": "#fffcf0",
+          "activeTabForeground": "#100f0f",
+          "activeTabBorder": "#cecdc3",
+          "terminalTitlebarBackground": "#f2f0e5",
+          "terminalTitlebarForeground": "#100f0f",
+          "copyButtonForeground": "#6f6e69",
+          "copyButtonBorder": "#cecdc3",
+          "tooltipSuccessBackground": "#24837b",
+          "tooltipSuccessForeground": "#ffffff"
+        },
+        "dark": {
+          "background": "#100f0f",
+          "foreground": "#cecdc3",
+          "border": "#343331",
+          "focus": "#3aa99f",
+          "tabBarBackground": "#1c1b1a",
+          "tabBarBorder": "#343331",
+          "activeTabBackground": "#100f0f",
+          "activeTabForeground": "#cecdc3",
+          "activeTabBorder": "#343331",
+          "terminalTitlebarBackground": "#1c1b1a",
+          "terminalTitlebarForeground": "#cecdc3",
+          "copyButtonForeground": "#878580",
+          "copyButtonBorder": "#343331",
+          "tooltipSuccessBackground": "#3aa99f",
+          "tooltipSuccessForeground": "#100f0f"
+        }
+      },
+      "diffs": {
+        "light": {
+          "marked": "#ad8301",
+          "inserted": "#66800b",
+          "deleted": "#af3029",
+          "markedBackground": "#fdf8e6",
+          "insertedBackground": "#f2f5e8",
+          "deletedBackground": "#fbeeed"
+        },
+        "dark": {
+          "marked": "#d0a215",
+          "inserted": "#879a39",
+          "deleted": "#d14d41",
+          "markedBackground": "#2b2513",
+          "insertedBackground": "#202414",
+          "deletedBackground": "#2c1716"
+        }
+      },
+      "copy": "standard",
+      "frame": "editor",
+      "tabs": {
+        "activeIndicator": "accent"
+      }
+    }
+  }
+}

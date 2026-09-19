@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "tf-paired-profile-v1",
+  "name": "forge-console",
+  "version": "0.1.0",
+  "description": "Forge Console shared design profile mapping to Solar Sail app theme and Stellar Loom Starlight catalog",
+  "palette": {
+    "light": {
+      "primary": "#126475",
+      "primaryForeground": "#ffffff",
+      "accent": "#9c3e0b",
+      "accentForeground": "#ffffff",
+      "background": "#fff8f0",
+      "foreground": "#262a33",
+      "card": "#fffdfa",
+      "cardForeground": "#262a33",
+      "popover": "#fffdfa",
+      "popoverForeground": "#262a33",
+      "secondary": "#f5ede5",
+      "secondaryForeground": "#262a33",
+      "muted": "#eee4da",
+      "mutedForeground": "#625a55",
+      "border": "#d1c4b8",
+      "input": "#d1c4b8",
+      "ring": "#126475",
+      "destructive": "#dc2626",
+      "destructiveForeground": "#ffffff"
+    },
+    "dark": {
+      "primary": "#69d3e4",
+      "primaryForeground": "#111318",
+      "accent": "#ff8a3d",
+      "accentForeground": "#111318",
+      "background": "#111318",
+      "foreground": "#eee9e3",
+      "card": "#191c23",
+      "cardForeground": "#eee9e3",
+      "popover": "#191c23",
+      "popoverForeground": "#eee9e3",
+      "secondary": "#262a33",
+      "secondaryForeground": "#ddd7d0",
+      "muted": "#262a33",
+      "mutedForeground": "#b9b4ad",
+      "border": "#393d48",
+      "input": "#393d48",
+      "ring": "#69d3e4",
+      "destructive": "#ef4444",
+      "destructiveForeground": "#ffffff"
+    }
+  },
+  "surfaces": {
+    "radius": "0.5rem",
+    "content": 704
+  },
+  "typography": {
+    "fontSans": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "fontHeading": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "fontMono": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+  }
+}

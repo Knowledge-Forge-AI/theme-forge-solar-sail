@@ -1,0 +1,7 @@
+{
+  "name": "@knowledge-forge-ai/app-theme-forge-console",
+  "version": "0.1.0",
+  "description": "Forge Console application theme for Tailwind CSS v4 and shadcn/ui",
+  "license": "AGPL-3.0-or-later",
+  "private": true
+}
