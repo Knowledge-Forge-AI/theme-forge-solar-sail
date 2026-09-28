@@ -1,6 +1,6 @@
 import { describe, expect, it, afterEach } from "vitest";
 import { readFileSync } from "node:fs";
-import { mkdtemp, rm, writeFile, mkdir } from "node:fs/promises";
+import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import {
@@ -56,6 +56,7 @@ describe("Solar Sail emitter", () => {
     const indexTs = res.files.get("src/index.ts") as string;
     expect(indexTs).not.toContain("@knowledge-forge-ai/theme-forge-solar-sail");
     expect(indexTs).toContain("export interface ThemeSpecification");
+    expect(indexTs).toContain("sourceProfileSha256?: string;");
     expect(indexTs).toContain("export const themeSpec: ThemeSpecification =");
 
     // Spec parity: verify the JSON-serialized spec in src/index.ts matches theme.json
@@ -76,19 +77,78 @@ describe("Solar Sail emitter", () => {
     expect(pkgJson.exports["."].types).toBe("./dist/index.d.ts");
   });
 
-  it("enforces filesystem safety: refuses non-empty directories without overwrite", async () => {
+  it("emits sourceProfileSha256 in ThemeSpecification without excess-property defect", () => {
+    const themeWithSha = {
+      ...validTheme,
+      sourceProfileSha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    };
+
+    const res = generateThemePackage({
+      themeSpec: themeWithSha,
+      metadata: validMetadata,
+      language: "typescript",
+    });
+
+    const indexTs = res.files.get("src/index.ts") as string;
+    expect(indexTs).toContain("sourceProfileSha256?: string;");
+
+    const inlinedSpecMatch = indexTs.match(/export const themeSpec: ThemeSpecification = ([\s\S]*?);\nexport const themeCss/);
+    expect(inlinedSpecMatch).not.toBeNull();
+    const parsedInlinedSpec = JSON.parse(inlinedSpecMatch![1]);
+    expect(parsedInlinedSpec.sourceProfileSha256).toBe(themeWithSha.sourceProfileSha256);
+
+    const themeJson = JSON.parse(res.files.get("theme.json") as string);
+    expect(parsedInlinedSpec).toEqual(themeJson);
+  });
+
+  it("validates generation options without external dependencies", () => {
+    expect(() => generateThemePackage(null as any)).toThrow(TypeError);
+    expect(() => generateThemePackage({} as any)).toThrow(TypeError);
+    expect(() =>
+      generateThemePackage({
+        themeSpec: validTheme,
+        metadata: validMetadata,
+        language: "python" as any,
+      })
+    ).toThrow(TypeError);
+    expect(() =>
+      generateThemePackage({
+        themeSpec: null as any,
+        metadata: validMetadata,
+      })
+    ).toThrow(TypeError);
+    expect(() =>
+      generateThemePackage({
+        themeSpec: validTheme,
+        metadata: null as any,
+      })
+    ).toThrow(TypeError);
+  });
+
+  it("enforces filesystem safety: refuses non-empty directories even with overwrite:true", async () => {
     tempDir = await mkdtemp(join(tmpdir(), "tfss-test-safety-"));
-    // Place a file inside to make it non-empty
-    await writeFile(join(tempDir, "existing.txt"), "pre-existing");
+    const existingFilePath = join(tempDir, "existing.txt");
+    const existingContent = "pre-existing secret data";
+    await writeFile(existingFilePath, existingContent);
 
     const res = generateThemePackage({
       themeSpec: validTheme,
       metadata: validMetadata,
     });
 
+    // Without overwrite option
     await expect(writePackageFiles(res.files, tempDir)).rejects.toThrow(
       FilesystemSafetyError
     );
+
+    // With overwrite: true, MUST STILL BE REFUSED
+    await expect(
+      writePackageFiles(res.files, tempDir, { overwrite: true })
+    ).rejects.toThrow(FilesystemSafetyError);
+
+    // Verify existing bytes are completely preserved
+    const preservedContent = await readFile(existingFilePath, "utf8");
+    expect(preservedContent).toBe(existingContent);
   });
 
   it("successfully writes package files to an empty or absent directory", async () => {

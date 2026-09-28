@@ -18,6 +18,7 @@ describe("Solar Sail compiler", () => {
     expect(res.css).toContain(":root {");
     expect(res.css).toContain(".dark, :root[data-theme='dark'] {");
     expect(res.descriptor.schema).toBe("tfss.theme-descriptor-v1");
+    expect(res.descriptor.compiler.version).toBe("0.2.0");
   });
 
   it("is strictly deterministic across repeated compilations", () => {

@@ -28,6 +28,7 @@ export function computeSha256(content: string | Uint8Array): string {
 }
 
 function toCssVarName(role: string): string {
+  if (/^chart[1-5]$/.test(role)) return role.replace("chart", "chart-");
   // Convert camelCase to kebab-case
   return role.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
 }

@@ -1,6 +1,3 @@
-import { createHash } from "node:crypto";
-import { mkdir, readdir, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
 import {
   COMPILER_NAME,
   COMPILER_VERSION,
@@ -11,6 +8,14 @@ import {
 } from "./types.js";
 import { compileTheme, canonicalizeJson, computeSha256 } from "./compiler.js";
 import { validatePackageMetadata } from "./validator.js";
+import { assertSafeData } from "./input.js";
+import {
+  writePackageFiles,
+  writeCssFile,
+  FilesystemSafetyError,
+} from "./writer.js";
+
+export { writePackageFiles, writeCssFile, FilesystemSafetyError };
 
 import {
   AGPL_3_LICENSE_TEXT,
@@ -18,18 +23,44 @@ import {
   COMMERCIAL_LICENSE_TEXT,
 } from "./legal.js";
 
-export class FilesystemSafetyError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "FilesystemSafetyError";
-  }
+/**
+ * Escapes Unicode line separators (\u2028, \u2029) to ensure valid TypeScript string literal syntax
+ * while preserving identical JSON.parse semantic deserialization.
+ */
+function toTsSafeJson(jsonString: string): string {
+  return jsonString.replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
 }
 
 export function generateThemePackage(options: GeneratePackageOptions): GeneratePackageResult {
+  // Validate generation options and language without external dependencies
+  if (!options || typeof options !== "object" || Array.isArray(options)) {
+    throw new TypeError("GeneratePackageOptions must be a non-null object");
+  }
+  const safeOptions: Record<string, unknown> = {};
+  if (![Object.prototype, null].includes(Object.getPrototypeOf(options)) || Object.getOwnPropertySymbols(options).length) throw new TypeError("Unsafe generation options");
+  for (const key of Object.getOwnPropertyNames(options)) {
+    const descriptor = Object.getOwnPropertyDescriptor(options, key)!;
+    if (!descriptor.enumerable || !("value" in descriptor) || !["themeSpec", "metadata", "language"].includes(key)) throw new TypeError("Unknown or unsafe generation option");
+    if (descriptor.value !== undefined || key !== "language") safeOptions[key] = descriptor.value;
+  }
+  if (safeOptions.language !== undefined) assertSafeData(safeOptions.language);
+  const language = options.language ?? "javascript";
+  if (language !== "typescript" && language !== "javascript") {
+    throw new TypeError(
+      `Invalid language option '${String(options.language)}'. Expected 'typescript' or 'javascript'.`
+    );
+  }
+  if (!options.themeSpec) {
+    throw new TypeError("GeneratePackageOptions 'themeSpec' is required");
+  }
+  if (!options.metadata) {
+    throw new TypeError("GeneratePackageOptions 'metadata' is required");
+  }
+
   const metadata = validatePackageMetadata(options.metadata);
   const compilation = compileTheme(options.themeSpec);
   const spec = compilation.specification;
-  const isTs = options.language === "typescript";
+  const isTs = language === "typescript";
 
   const files = new Map<string, string | Uint8Array>();
 
@@ -58,7 +89,19 @@ export function generateThemePackage(options: GeneratePackageOptions): GenerateP
   border: string;
   input: string;
   ring: string;
-  [key: string]: string | undefined;
+  chart1?: string;
+  chart2?: string;
+  chart3?: string;
+  chart4?: string;
+  chart5?: string;
+  sidebar?: string;
+  sidebarForeground?: string;
+  sidebarPrimary?: string;
+  sidebarPrimaryForeground?: string;
+  sidebarAccent?: string;
+  sidebarAccentForeground?: string;
+  sidebarBorder?: string;
+  sidebarRing?: string;
 }
 
 export interface ThemeSpecification {
@@ -79,12 +122,14 @@ export interface ThemeSpecification {
     fontHeading?: string;
     fontMono?: string;
   };
+  sourceProfileSha256?: string;
 }
 `;
+    const inlinedSpecJson = toTsSafeJson(canonicalizeJson(spec));
     files.set(
       "src/index.ts",
       `${typeDef}
-export const themeSpec: ThemeSpecification = ${canonicalizeJson(spec)};
+export const themeSpec: ThemeSpecification = ${inlinedSpecJson};
 export const themeCss = "./styles/theme.css";
 export default themeSpec;
 `
@@ -198,18 +243,27 @@ export default themeSpec;
   files.set("LICENSE", AGPL_3_LICENSE_TEXT);
   files.set("NOTICE", FIRST_PARTY_NOTICE_TEXT);
   files.set("COMMERCIAL-LICENSE.md", COMMERCIAL_LICENSE_TEXT);
+
+  // Constrain and encode metadata interpolated into README sink
+  const safeReadmeName = metadata.name.replace(/[\r\n]+/g, " ").replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
+  const rawDescription = (pkgJson.description as string) ?? `${spec.name} application theme for Tailwind CSS v4 and shadcn/ui`;
+  const safeReadmeDesc = rawDescription.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/[\[\]`*_!#+|.()\\-]/g, char => `&#${char.charCodeAt(0)};`).replace(/^ +/, spaces => "&#32;".repeat(spaces.length));
+  const safeThemeName = String(spec.name).replace(/[\r\n]+/g, " ").replace(/`/g, "\\`");
+  const safeThemeVersion = String(spec.version).replace(/[\r\n]+/g, " ").replace(/`/g, "\\`");
+  const safeImportSpecifier = metadata.name.replace(/[\r\n"\\`<>]/g, "").trim();
+
   files.set(
     "README.md",
-    `# ${metadata.name}
+    `# ${safeReadmeName}
 
-${pkgJson.description}
+${safeReadmeDesc}
 
 ## Overview
 
 Generated by [Theme Forge Solar Sail](https://github.com/Knowledge-Forge-AI/theme-forge-stellar-burst).
 Provides a deterministic Tailwind CSS v4 \`@theme inline\` stylesheet and shadcn/ui compatible CSS variables.
 
-- **Theme**: \`${spec.name}\` (v${spec.version})
+- **Theme**: \`${safeThemeName}\` (v${safeThemeVersion})
 - **Language Mode**: \`${isTs ? "typescript" : "javascript"}\`
 - **Tailwind Version**: \`^4.0.0\`
 
@@ -218,7 +272,7 @@ Provides a deterministic Tailwind CSS v4 \`@theme inline\` stylesheet and shadcn
 Import the theme stylesheet into your application root CSS file (e.g. \`globals.css\` or \`app.css\`):
 
 \`\`\`css
-@import "${metadata.name}/styles/theme.css";
+@import "${safeImportSpecifier}/styles/theme.css";
 \`\`\`
 
 All semantic color tokens (\`--color-primary\`, \`--color-background\`, \`--color-card\`, etc.) and border radius utilities (\`rounded-sm\`, \`rounded-md\`, \`rounded-lg\`, \`rounded-xl\`, etc.) are mapped automatically under Tailwind v4.
@@ -266,35 +320,4 @@ Consumer styles defined after the \`@import\` take precedence following ordinary
     files,
     diagnostics: compilation.diagnostics,
   };
-}
-
-export async function writePackageFiles(
-  files: Map<string, string | Uint8Array>,
-  outDir: string,
-  options?: { overwrite?: boolean }
-): Promise<string[]> {
-  try {
-    const entries = await readdir(outDir);
-    if (entries.length > 0 && !options?.overwrite) {
-      throw new FilesystemSafetyError(
-        `Target directory '${outDir}' is not empty. Theme packages must be written to an absent or empty directory.`
-      );
-    }
-  } catch (err: any) {
-    if (err.code !== "ENOENT") {
-      throw err;
-    }
-  }
-
-  await mkdir(outDir, { recursive: true });
-
-  const writtenPaths: string[] = [];
-  for (const [relativePath, content] of files) {
-    const fullPath = join(outDir, relativePath);
-    await mkdir(dirname(fullPath), { recursive: true });
-    await writeFile(fullPath, content);
-    writtenPaths.push(relativePath);
-  }
-
-  return writtenPaths.sort((a, b) => a.localeCompare(b, "en"));
 }
