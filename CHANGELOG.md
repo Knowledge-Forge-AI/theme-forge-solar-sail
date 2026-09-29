@@ -5,6 +5,11 @@ All notable changes to `@knowledge-forge-ai/theme-forge-solar-sail` will be docu
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] — Unreleased patch candidate
+
+### Security
+- `calculateContrastRatio` no longer backtracks polynomially on long `rgb(`/`hsl(`-prefixed inputs: the two alpha-channel checks are now a linear scan with the same grammar (CodeQL `js/polynomial-redos`, `src/validator.ts`). Valid and invalid colour results are unchanged.
+
 ## [0.2.0] — Unreleased source candidate
 
 ### Added
