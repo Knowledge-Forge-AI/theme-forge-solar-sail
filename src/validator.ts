@@ -133,11 +133,24 @@ export function calculateContrastRatio(colorA: string, colorB: string): number |
   return (lighter + 0.05) / (darker + 0.05);
 }
 
+/**
+ * Linear-time equivalent of `/^<name>a?\(.*[/,].*\)$/i` on an already
+ * lower-cased string: the parenthesized body must be free of line terminators
+ * (`.` never matches them) and contain a comma or slash.  The regular
+ * expression form backtracks polynomially on long unterminated inputs.
+ */
+export function isSeparatedColorFunction(s: string, name: "rgb" | "hsl"): boolean {
+  const open = s.startsWith(`${name}a(`) ? name.length + 2 : s.startsWith(`${name}(`) ? name.length + 1 : -1;
+  if (open < 0 || s.length < open + 1 || !s.endsWith(")")) return false;
+  const inner = s.slice(open, -1);
+  return !/[\n\r\u2028\u2029]/.test(inner) && (inner.includes(",") || inner.includes("/"));
+}
+
 function hasAlphaChannel(color: string): boolean {
   const s = color.trim().toLowerCase();
   // 4-digit or 8-digit hex has explicit alpha
   if (/^#(?:[0-9a-f]{4}|[0-9a-f]{8})$/i.test(s)) return true;
-  if (/^rgba?\(.*[/,].*\)$/i.test(s)) {
+  if (isSeparatedColorFunction(s, "rgb")) {
     const inside = s.slice(s.indexOf("(") + 1, -1).trim();
     if (inside.includes(",")) {
       return inside.split(",").length === 4;
@@ -146,7 +159,7 @@ function hasAlphaChannel(color: string): boolean {
       return true;
     }
   }
-  if (/^hsla?\(.*[/,].*\)$/i.test(s)) {
+  if (isSeparatedColorFunction(s, "hsl")) {
     const inside = s.slice(s.indexOf("(") + 1, -1).trim();
     if (inside.includes(",")) {
       return inside.split(",").length === 4;
