@@ -5,12 +5,15 @@ All notable changes to `@knowledge-forge-ai/theme-forge-solar-sail` will be docu
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.1] — Unreleased patch candidate
+## [0.2.1]
 
 ### Security
 - `calculateContrastRatio` no longer backtracks polynomially on long `rgb(`/`hsl(`-prefixed inputs: the two alpha-channel checks are now a linear scan with the same grammar (CodeQL `js/polynomial-redos`, `src/validator.ts`). Valid and invalid colour results are unchanged.
 
-## [0.2.0] — Unreleased source candidate
+### Documentation
+- The README no longer names 0.1.0 as the registry installation target; it points to the registry's `latest` tag.
+
+## [0.2.0] - 2026-09-28
 
 ### Added
 - Duplicate-aware byte parsing, strict v1 validation and maintained negative/dogfood corpora.
@@ -19,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Exclusive package writing with checked rollback and independent filesystem/sink tests.
 
 ### Changed
-- **Breaking compatibility corrections (candidate; release artifacts pending):**
+- **Breaking compatibility corrections:**
   chart roles emit `--chart-1` through `--chart-5` instead of `--chart1` through
   `--chart5`; consumers must update references.
 - Validation rejects previously accepted malformed/ambiguous fields, unsafe CSS,
@@ -33,8 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Markdown block syntax or raw metadata control bytes.
 
 Compatibility corrections and filesystem concurrency limits are documented in the
-README. This source checkpoint awaits release-artifact qualification and is not a
-release announcement.
+README.
 
 ## [0.1.0] - 2026-09-17
 
