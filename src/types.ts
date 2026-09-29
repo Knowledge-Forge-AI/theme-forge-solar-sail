@@ -1,5 +1,5 @@
 export const COMPILER_NAME = "@knowledge-forge-ai/theme-forge-solar-sail";
-export const COMPILER_VERSION = "0.1.0";
+export const COMPILER_VERSION = "0.2.1";
 export const THEME_SCHEMA_VERSION = "tfss.theme-v1";
 export const DESCRIPTOR_SCHEMA_VERSION = "tfss.theme-descriptor-v1";
 export const PROVENANCE_SCHEMA_VERSION = "tfss.package-provenance-v1";
