@@ -7,7 +7,7 @@
 , nodejs_22
 , makeWrapper
 , source
-, npmDepsHash ? "sha256-XSYq8QTP3UT/2gz7E65DbT2uvZu1WvUsSEERUXOMXU0="
+, npmDepsHash ? "sha256-8XX1uaiwF/6tCZmbV1Vx2TJ7JZ+Gcyl/XlAmD3lkiRg="
 }:
 
 let

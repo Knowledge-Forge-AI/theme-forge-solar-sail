@@ -5,6 +5,7 @@ import { compileTheme, computeSha256 } from "../src/compiler.js";
 
 const examplePath = resolve(import.meta.dirname, "../examples/forge-console.theme.json");
 const validTheme = JSON.parse(readFileSync(examplePath, "utf8"));
+const packageVersion = (JSON.parse(readFileSync(resolve(import.meta.dirname, "../package.json"), "utf8")) as { version: string }).version;
 
 describe("Solar Sail compiler", () => {
   it("compiles a valid specification to Tailwind v4 @theme inline format", () => {
@@ -18,7 +19,7 @@ describe("Solar Sail compiler", () => {
     expect(res.css).toContain(":root {");
     expect(res.css).toContain(".dark, :root[data-theme='dark'] {");
     expect(res.descriptor.schema).toBe("tfss.theme-descriptor-v1");
-    expect(res.descriptor.compiler.version).toBe("0.2.1");
+    expect(res.descriptor.compiler.version).toBe(packageVersion);
   });
 
   it("is strictly deterministic across repeated compilations", () => {

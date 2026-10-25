@@ -30,7 +30,7 @@ nix flake check
 
 1. **Pure Source Derivation**:
    TypeScript is compiled from clean source in an isolated build environment using `pkgs.buildNpmPackage` with Node 22.
-   All build dependencies are locked via `npmDepsHash = "sha256-XSYq8QTP3UT/2gz7E65DbT2uvZu1WvUsSEERUXOMXU0="`.
+   All build dependencies are locked via `npmDepsHash = "sha256-8XX1uaiwF/6tCZmbV1Vx2TJ7JZ+Gcyl/XlAmD3lkiRg="`.
 
 2. **CWD-Independent Store Wrapper**:
    The wrapper is created under `$out/bin/tfss` using `makeWrapper`.
