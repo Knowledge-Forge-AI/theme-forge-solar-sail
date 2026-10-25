@@ -288,10 +288,8 @@ export function mapProfileToStellarLoom(
 
   const loomOverrides = profile.targetOverrides?.loom as Record<string, any> | undefined;
 
-  const tokenSetKey =
-    existingCatalog?.tokenSets && Object.keys(existingCatalog.tokenSets).length > 0
-      ? Object.keys(existingCatalog.tokenSets)[0]
-      : profile.name;
+  const tokenSetKeys = existingCatalog?.tokenSets ? Object.keys(existingCatalog.tokenSets) : [];
+  const tokenSetKey = tokenSetKeys[0] ?? profile.name;
 
   const existingTokens = existingCatalog?.tokenSets?.[tokenSetKey] || {};
 

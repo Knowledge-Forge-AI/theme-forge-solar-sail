@@ -2,9 +2,7 @@
 
 Deterministic theme compiler, library, and `tfss` CLI for Tailwind CSS v4 and shadcn/ui application theming. Sibling engine to Theme Forge Stellar Loom.
 
-This is version 0.2.1, a patch successor of 0.2.0. The npm registry's `latest` tag is the installation
-target; `npm view @knowledge-forge-ai/theme-forge-solar-sail dist-tags.latest` shows which version that is.
-When this source was prepared, 0.2.0 was the latest published release and 0.2.1 had not yet been published.
+This source describes version 0.3.0.
 
 ## Overview
 
